@@ -26,6 +26,9 @@ const Home = () => {
     history.push('/');
   };
 
+  const handleAbout = () => {
+    history.push('/home/about');
+  };
   return (
     <Layout>
       <Header className="header"></Header>
@@ -37,8 +40,8 @@ const Home = () => {
         >
           <Menu
             mode="inline"
-            defaultSelectedKeys={['0']}
-            defaultOpenKeys={['sub1']}
+            defaultSelectedKeys={['3']}
+            defaultOpenKeys={['sub2']}
             style={{ height: '100%', borderRight: 0 }}
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="Features">
@@ -50,8 +53,11 @@ const Home = () => {
               </Menu.Item>
             </SubMenu>
 
-            <SubMenu key="sub3" icon={<NotificationOutlined />} title="User">
-              <Menu.Item key="10" onClick={handleLogOut}>
+            <SubMenu key="sub2" icon={<NotificationOutlined />} title="User">
+              <Menu.Item key="3" onClick={handleAbout}>
+                About
+              </Menu.Item>
+              <Menu.Item key="4" onClick={handleLogOut}>
                 Logout
               </Menu.Item>
             </SubMenu>

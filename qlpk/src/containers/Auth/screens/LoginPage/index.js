@@ -19,7 +19,7 @@ const LoginPage = () => {
   useEffect(() => {
     const user = getCurrentUser();
     if (user) {
-      history.push('/home/lichhen');
+      history.push('/home/about');
     }
   }, [history]);
 
@@ -35,7 +35,7 @@ const LoginPage = () => {
     if (user) {
       localStorage.setItem('user', JSON.stringify(user));
       message.success('Login Successfully');
-      history.push('/home/lichhen');
+      history.push('/home/about');
     } else {
       message.error('Wrong username or password');
     }
