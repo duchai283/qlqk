@@ -39,7 +39,30 @@ const LichHen = () => {
   const onFinish = async values => {
     console.log('selected date', selected);
     console.log('Received values of form: ', values);
+    postLichHen(values, selected);
   };
+
+  const postLichHen = async (values, selected) => {
+    const obj = {
+      id: '',
+      time: selected.time,
+      id_benh_nhan: values.id,
+      status: values.status,
+      ghi_chu: null,
+      date: Date.now()
+    };
+
+    const res = await fetch('http://localhost:8088/lich_hen/addOne', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(obj)
+    });
+    const data = await res.json();
+    console.log('data2', data);
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
