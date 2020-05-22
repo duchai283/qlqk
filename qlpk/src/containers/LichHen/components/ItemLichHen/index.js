@@ -8,19 +8,17 @@ const Wrapper = styled.div`
   padding: 15px;
   margin: 10px;
   border-radius: 5px;
-  background-color: #fff;
   border: 1px solid #ecedef;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background-color: #ecedef;
-  cursor: not-allowed;
+  background-color: '#777'
   text-align: center;
   box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
   & .text {
-    color: #818792;
+    
     font-size: 14px;
     margin-bottom: 10px;
   }
@@ -36,26 +34,23 @@ const Wrapper = styled.div`
     background-color: #818792;
     color: #fff;
   }
+  .active {
+    background-color: red;
+  }
 `;
 
-const ItemLichHen = ({ item }) => {
-  const onFinish = values => {
-    console.log('Success:', values);
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
-  console.log('item', item);
+const ItemLichHen = ({ item, handleSelected, selected }) => {
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={() => handleSelected(item)}
+      className={item.id === selected.id ? 'active' : ''}
+    >
       <div className="text">
         {moment(item.time, 'HH:mm:ss').format('LT') +
           ' - ' +
           moment(item.time_end, 'HH:mm:ss').format('LT')}
       </div>
-      <div className="block">FULL</div>
+      <div className="block">{item.status}</div>
     </Wrapper>
   );
 };

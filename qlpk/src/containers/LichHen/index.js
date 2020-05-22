@@ -1,11 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import ItemLichHen from './components/ItemLichHen';
 import { LichHenInitial } from '../../utils/fakeData';
-import { Input, AutoComplete } from 'antd';
+import { Input, AutoComplete, Button, Form } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 0 },
+    sm: { span: 0 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 }
+  }
+};
+
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0
+    },
+    sm: {
+      span: 16,
+      offset: 4
+    }
+  }
+};
 
 const LichHen = () => {
   const [Users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [selected, setSelected] = useState({});
+  const handleSelected = item => {
+    setSelected(item);
+  };
+  const onFinish = async values => {
+    console.log('selected date', selected);
+    console.log('Received values of form: ', values);
+  };
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -18,43 +52,6 @@ const LichHen = () => {
       fetchUser();
     };
   }, []);
-  console.log('Users', Users);
-  const renderTitle = title => {
-    return <span>{title}</span>;
-  };
-
-  const renderItem = (title, count) => {
-    return {
-      value: title,
-      label: (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          {title}
-          <span>
-            <UserOutlined /> {count}
-          </span>
-        </div>
-      )
-    };
-  };
-
-  const options = [];
-  if (Users.length !== 0) {
-    const options = [
-      {
-        label: renderTitle('BỆNH NHÂN'),
-        options: [
-          Users.map(user =>
-            renderItem(`${user.lastname + user.firstname}`, user.id)
-          )
-        ]
-      }
-    ];
-  }
 
   return (
     <div>
@@ -68,22 +65,46 @@ const LichHen = () => {
           }}
         >
           {LichHenInitial.map(item => (
-            <ItemLichHen item={item} />
+            <ItemLichHen
+              item={item}
+              selected={selected}
+              handleSelected={handleSelected}
+            />
           ))}
         </div>
-        {Users.length !== 0 ? (
-          <AutoComplete
-            dropdownClassName="certain-category-search-dropdown"
-            dropdownMatchSelectWidth={500}
-            style={{ width: 250 }}
-            options={options}
-            onChange={values => {
-              console.log('values', values);
+        <div>
+          <Form
+            {...formItemLayout}
+            form={form}
+            name="register"
+            onFinish={onFinish}
+            initialValues={{
+              prefix: '84'
             }}
+            scrollToFirstError
           >
-            <Input.Search size="large" placeholder="input here" />
-          </AutoComplete>
-        ) : null}
+            <Form.Item
+              name="id"
+              label="NHẬP ID BỆNH NHÂN"
+              rules={[
+                {
+                  required: true,
+                  message: 'Cần nhập id bệnh nhân'
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Button
+              type="primary"
+              size="large"
+              loading={loading}
+              htmlType="submit"
+            >
+              ĐẶT LỊCH HẸN
+            </Button>
+          </Form>
+        </div>
       </div>
     </div>
   );
