@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Select, Button, DatePicker, Cascader, Radio } from 'antd';
+import { Form, Input, Select, Button, Radio } from 'antd';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -7,7 +7,7 @@ const { TextArea } = Input;
 const formItemLayout = {
   labelCol: {
     xs: { span: 0 },
-    sm: { span: 4 }
+    sm: { span: 8 }
   },
   wrapperCol: {
     xs: { span: 24 },
@@ -30,29 +30,33 @@ const tailFormItemLayout = {
 const FormBenhNhan = () => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
+  const onFinish = async values => {
     console.log('Received values of form: ', values);
-    const res = postUser(values);
-    const data = res.json();
-    console.log('data', data);
+    postUser(values);
   };
 
   const postUser = async values => {
-    return await fetch(`https://localhost:/benh_nhan/addOne/`, {
+    const obj = {
+      id: '',
+      first_name: values.firstname,
+      last_name: values.lastname,
+      address: values.diachi,
+      phone: values.phone,
+      tien_su_benh: values.ghichu,
+      sex: values.sex,
+      birth_date: values.ngaysinh
+    };
+
+    const res = await fetch('http://localhost:8088/benh_nhan/addOne', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: {
-        first_name: values.firstname,
-        last_name: values.lastname,
-        address: values.diachi,
-        phone: values.phone,
-        tien_su_benh: values.ghichu,
-        sex: values.sex,
-        birth_date: values.ngaysinh
-      }
+      body: JSON.stringify(obj)
     });
+    console.log('res', res);
+    const data = await res.json();
+    console.log('data', data);
   };
 
   const prefixSelector = (

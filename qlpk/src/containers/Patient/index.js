@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableAntd from '../../components/Table';
 import { Input, Button } from 'antd';
 import { UsergroupAddOutlined } from '@ant-design/icons';
@@ -7,6 +7,17 @@ import AddBenhNhan from './screens/AddBenhNhan';
 const { Search } = Input;
 
 const Patient = () => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await fetch('http://localhost:8088/benh_nhan/getAll', {
+        method: 'GET'
+      });
+      return await res.json();
+    };
+    const data = fetchUser();
+    console.log('data', data);
+  }, []);
+
   const [addBN, setAddBN] = useState(false);
   return (
     <div>
@@ -34,7 +45,7 @@ const Patient = () => {
           </Button>
         </div>
       </div>
-      {!addBN ? <AddBenhNhan /> : <TableAntd />}
+      {addBN ? <AddBenhNhan /> : <TableAntd />}
     </div>
   );
 };
