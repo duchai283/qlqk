@@ -38,12 +38,7 @@ const Home = () => {
           className="site-layout-background"
           style={{ height: '100vh' }}
         >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['3']}
-            defaultOpenKeys={['sub2']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
+          <Menu mode="inline" style={{ height: '100%', borderRight: 0 }}>
             <SubMenu key="sub1" icon={<UserOutlined />} title="Features">
               <Menu.Item key="1">
                 <Link to={`${path}/lichhen`}>Lịch Hẹn</Link>
